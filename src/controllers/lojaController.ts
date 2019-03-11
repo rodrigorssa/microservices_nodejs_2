@@ -43,7 +43,36 @@ class LojaController {
         return res.status(201).json(dados)
     }
 
+    async getAll(req:Request,res:Response,params:object = null){
+        const lojas = new Lojas()
+        
+        let query = await lojas.buscaLojas(params)
 
+        if(this.isEmpty(query)) return res.status(404).json({errorCode : 404, msg:"Nenhuma loja encontrada"})
+
+        return res.status(200).json(query)
+    }
+
+    async getById(req:Request,res:Response,id:number){
+        const lojas = new Lojas()
+            let query = await lojas.buscaPorId(id)
+            if(!query) return res.status(404).json({errorCode : 404, msg:"Nenhuma loja encontrada"})
+            return res.status(200).json(query)
+    }
+
+    async getByState(req:Request,res:Response,state:string){
+        const lojas = new Lojas()
+        let query = await lojas.buscaPorEstado(state)
+        if(this.isEmpty(query)) return res.status(404).json({errorCode : 404, msg:"Nenhuma loja encontrada"})
+        return res.status(200).json(query)
+           
+    }
+
+    //funçao de validação de retornos vazios
+
+    isEmpty(result:any){
+        if(Object.keys(result).length === 0 ) return true; else return false;
+    }
 
 }
 export default LojaController

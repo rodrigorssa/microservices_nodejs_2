@@ -17,7 +17,18 @@ class Lojas {
             throw new Error(err)
             })
     }
+    
+    buscaLojas(params: object = null){
+        return this._connection.manager.find(Loja, params).catch(err => console.log(err))
+    }
 
+    buscaPorId(id:number){
+        return this._connection.manager.findOne(Loja, id).catch(err => console.log(err))
+    }
+
+    buscaPorEstado(estado:string){
+        return this._connection.manager.find(Loja, {state: estado} ).catch(err => console.log(err))
+    }
 
 }
 

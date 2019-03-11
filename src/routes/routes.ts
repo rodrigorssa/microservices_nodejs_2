@@ -46,5 +46,10 @@ export default (app:any) => {
 
         })
         
+        app.put('/lojas/:id',(req:any,res:any) => {
+            let id = req.params.id
+            let lojaController = new LojaController()
+                lojaController.put(req,res,id)
+        })
 })
 }

@@ -30,6 +30,11 @@ class Lojas {
         return this._connection.manager.find(Loja, {state: estado} ).catch(err => console.log(err))
     }
 
+    atualiza(query:Loja){
+        return this._connection.manager.save(Loja,query)
+            .then(loja => loja)
+            .catch(err => console.log(err))
+    }
 }
 
 export default Lojas

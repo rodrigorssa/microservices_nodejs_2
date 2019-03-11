@@ -68,6 +68,22 @@ class LojaController {
            
     }
 
+    async put(req:any,res:any,id:number){
+        //verificando se o ID existe no banco
+        const lojas = new Lojas()
+        let query = await lojas.buscaPorId(id)
+        if(!query) return res.status(404).json({errorCode : 404, msg:"Nenhuma loja encontrada"})
+        
+        //validando propriedades vazias
+        let inputData = req.body;
+        Object.keys(inputData).forEach(key => {if(inputData[key] == '')  delete inputData[key]} )
+        
+        let mergeDados = {...query,...inputData}
+               
+        let dadosAtualizados = await lojas.atualiza(mergeDados)      
+        return res.status(200).json(dadosAtualizados)
+    } 
+
     //funçao de validação de retornos vazios
 
     isEmpty(result:any){

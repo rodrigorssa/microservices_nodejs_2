@@ -35,6 +35,12 @@ class Lojas {
             .then(loja => loja)
             .catch(err => console.log(err))
     }
+
+    deletar(id:number){
+        return this._connection.manager.delete(Loja,id)
+            .then(ret => ret)
+            .catch(err => console.log(err))
+    }
 }
 
 export default Lojas

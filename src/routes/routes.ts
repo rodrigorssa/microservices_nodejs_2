@@ -51,5 +51,11 @@ export default (app:any) => {
             let lojaController = new LojaController()
                 lojaController.put(req,res,id)
         })
+
+        app.delete('/lojas/:id',(req:any,res:any) => {
+            let id = req.params.id 
+            let lojaController = new LojaController()
+                lojaController.delete(id,req,res)
+        })
 })
 }

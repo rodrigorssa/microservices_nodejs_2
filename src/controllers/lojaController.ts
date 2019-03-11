@@ -84,6 +84,17 @@ class LojaController {
         return res.status(200).json(dadosAtualizados)
     } 
 
+    
+    async delete(id:number,req:any,res:any){
+        //verificando se o ID existe no banco
+        const lojas = new Lojas()
+            //lojas.buscaPorId(id)
+        let query = await lojas.buscaPorId(id)
+        if(!query) return res.status(404).json({errorCode : 404, msg:"Nenhuma loja encontrada"})
+        let status = await lojas.deletar(id)
+        return res.status(200).json('Loja deletada com sucesso!')
+    }
+
     //funçao de validação de retornos vazios
 
     isEmpty(result:any){

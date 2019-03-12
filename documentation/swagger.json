@@ -1,0 +1,203 @@
+{
+  "swagger": "2.0",
+  "schemes": [
+    "http"
+  ],
+  "host": "locahost:3000",
+  "basePath": "/api-docs",
+  "info": {
+    "version": "2.0.0",
+    "title": "Node Microservices",
+    "description": "Desafio de microsserviços NodeJS"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "Lojas"
+    }
+  ],
+  "paths": {
+    "/lojas": {
+      "post": {
+        "tags": [
+          "Lojas"
+        ],
+        "summary": "Cadastra Loja",
+        "description": "Cadastra uma nova loja",
+        "operationId": "CadastraLoja",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "cliente_",
+            "schema": {
+              "$ref": "#/definitions/Loja"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Cadastro efetuado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Loja"
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Lojas"
+        ],
+        "summary": "Busca lojas",
+        "description": "Busca todas as lojas",
+        "operationId": "BuscaTodasLojas",
+        "responses": {
+          "200": {
+            "description": "Busca efetuada com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Loja"
+            }
+          },
+          "404": {
+            "description": "Nada Encontrado"
+          }
+        }
+      }
+    },
+    "/lojas/{param}": {
+      "get": {
+        "tags": [
+          "Lojas"
+        ],
+        "summary": "Busca Loja",
+        "description": "Busca loja por ID ou por State",
+        "operationId": "BuscaLojaPorIdOuState",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "param",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Busca efetuada com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Loja"
+            }
+          },
+          "404": {
+            "description": "Nada encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Lojas"
+        ],
+        "summary": "Edita Loja",
+        "description": "Efetua alterações em um cadastro de loja",
+        "operationId": "EditaLoja",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "param",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "cliente_",
+            "schema": {
+              "$ref": "#/definitions/Loja"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cadastro alterado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Loja"
+            }
+          },
+          "404": {
+            "description": "Requisição inválida"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Lojas"
+        ],
+        "summary": "Deleta Loja",
+        "description": "Apaga uma loja",
+        "operationId": "ApagaLoja",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "param",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Loja apagada com sucesso"
+          },
+          "404": {
+            "description": "Nada encontrado"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Loja": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 234
+        },
+        "name": {
+          "type": "string",
+          "example": "rodrigo azul"
+        },
+        "address": {
+          "type": "string",
+          "example": "Rua ABC, 13"
+        },
+        "phone": {
+          "type": "string",
+          "example": "(00) 0000-0000"
+        },
+        "cnpj": {
+          "type": "string",
+          "example": "00.000.000/0000-00"
+        },
+        "workingHour": {
+          "type": "string",
+          "example": "Diariamente das 11hs às 23hs"
+        },
+        "city": {
+          "type": "string",
+          "example": "Cidade ABC"
+        },
+        "state": {
+          "type": "string",
+          "example": "A"
+        }
+      }
+    }
+  }
+}

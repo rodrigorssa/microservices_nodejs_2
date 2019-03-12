@@ -4,7 +4,6 @@ import routes from '../src/routes/routes'
 import * as expressValidator from 'express-validator'
 import * as swaggerUi from 'swagger-ui-express'
 
-
 const swaggerDocument = require('../documentation/swagger.json')
 
 const app = express();

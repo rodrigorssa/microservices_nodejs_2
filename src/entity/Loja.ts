@@ -1,3 +1,4 @@
+import "reflect-metadata"
 import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
 
 @Entity()
@@ -6,24 +7,24 @@ export class Loja  {
     @PrimaryGeneratedColumn()
     id:number
 
-    @Column()
-    name: string
-    
-    @Column()
+    @Column('text')
+    name:string
+
+    @Column('text')
     address:string
 
-    @Column()
+    @Column('text')
     phone:string
 
-    @Column()
+    @Column('text')
     cnpj:string
 
-    @Column()
+    @Column('text')
     workingHour:string
 
-    @Column()
+    @Column('text')
     city:string
 
-    @Column()
+    @Column('text')
     state:string
 }

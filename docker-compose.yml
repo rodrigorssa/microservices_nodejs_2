@@ -2,7 +2,7 @@ version: '3'
 services:
   mariadb:
     image: mariadb
-    container_name: mariadb_desafio_1
+    container_name: mariadb_desafio_2
     ports:
       - "3306:3306"
     environment: 
@@ -14,7 +14,7 @@ services:
       dockerfile: ./docker/node.dockerfile
       context: .
     image: node
-    container_name: node_desafio_1
+    container_name: node_desafio_2
     ports:
       - "3000:3000"
     networks:

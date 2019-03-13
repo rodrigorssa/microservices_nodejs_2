@@ -1,6 +1,7 @@
 import Lojas from '../models/Lojas'
 import { Loja } from '../entity/index'
 import { Request, Response } from 'express'
+import * as jwt from 'jsonwebtoken'
 
 class LojaController {
 
@@ -23,8 +24,7 @@ class LojaController {
                 errorCode: 400,
                 msg: err.map(item => item.msg )
             }
-            res.status(400).json(msg)
-            return
+            return res.status(400).json(msg)
         }
 
         //adicionando dados em variável, instanciando o objeto para salvar no bd
@@ -68,7 +68,7 @@ class LojaController {
            
     }
 
-    async put(req:any,res:any,id:number){
+    async put(req:Request, res:Response, id:number){
         //verificando se o ID existe no banco
         const lojas = new Lojas()
         let query = await lojas.buscaPorId(id)
@@ -83,9 +83,8 @@ class LojaController {
         let dadosAtualizados = await lojas.atualiza(mergeDados)      
         return res.status(200).json(dadosAtualizados)
     } 
-
     
-    async delete(id:number,req:any,res:any){
+    async delete(id:number, req:Request, res:Response){
         //verificando se o ID existe no banco
         const lojas = new Lojas()
             //lojas.buscaPorId(id)
@@ -93,6 +92,24 @@ class LojaController {
         if(!query) return res.status(404).json({errorCode : 404, msg:"Nenhuma loja encontrada"})
         let status = await lojas.deletar(id)
         return res.status(200).json('Loja deletada com sucesso!')
+    }
+
+    login(req:Request, res: Response){
+        req.assert('username','Campo username é obrigatório').notEmpty()
+        req.assert('password','Campo password é obrigatório').notEmpty()
+
+        let err = req.validationErrors()
+
+        if(err){
+            let msg = {
+                errorCode: 400,
+                msg: err.map(item => item.msg )
+            }
+           return res.status(401).json(msg)
+        }
+
+        let meuToken = jwt.sign({ username: req.body.username }, process.env.KEY)
+        return res.status(200).send(meuToken)
     }
 
     //funçao de validação de retornos vazios

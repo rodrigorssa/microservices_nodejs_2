@@ -4,15 +4,9 @@ import { createConnection } from 'typeorm'
 export default (app:any) => {
 
     createConnection().then(async () => {
-        
-        app.post('/lojas',(req:any,res:any) => {
-            //instanciando objeto Controller e passando os dados de request e response
-            let lojaController = new LojaController()
-                lojaController.post(req,res)
-        })
-    
+           
         app.get('/',(req:any,res:any) => {
-            res.send('funcionando!')
+            res.redirect(301, '/lojas')
         })
 
         app.get('/lojas/:state/:city',(req:any,res:any) => {
@@ -39,23 +33,36 @@ export default (app:any) => {
 
         })
         
-        app.get('/lojas/',(req:any,res:any) => {
+        app.route('/lojas/')
+        .get((req:any,res:any) => {
     
             let lojaController = new LojaController()
             lojaController.getAll(req,res)
 
         })
-        
-        app.put('/lojas/:id',(req:any,res:any) => {
+        .post((req:any,res:any) => {
+        //instanciando objeto Controller e passando os dados de request e response
+        let lojaController = new LojaController()
+            lojaController.post(req,res)
+        })
+
+        app.route('/lojas/:id')
+        .put((req:any,res:any) => {
             let id = req.params.id
             let lojaController = new LojaController()
                 lojaController.put(req,res,id)
         })
-
-        app.delete('/lojas/:id',(req:any,res:any) => {
+        .delete((req:any,res:any) => {
             let id = req.params.id 
             let lojaController = new LojaController()
                 lojaController.delete(id,req,res)
         })
+
+        //caso não encontre nenhuma rota
+        app.use((req, res) => {
+            res.status(404).json({errorCode: 404, msg: 'Pagina não encontrada!'});
+        });
+
+
 })
 }

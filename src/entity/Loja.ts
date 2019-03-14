@@ -1,5 +1,6 @@
 import "reflect-metadata"
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
+import { Cidade, Estado } from '../entity/index'
 
 @Entity()
 export class Loja  {
@@ -22,9 +23,9 @@ export class Loja  {
     @Column('text')
     workingHour:string
 
-    @Column('text')
-    city:string
+    @ManyToOne(type => Cidade)
+    cidade:Cidade
 
-    @Column('text')
-    state:string
+    @ManyToOne(type => Estado)
+    estado:Estado
 }

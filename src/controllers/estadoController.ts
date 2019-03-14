@@ -16,10 +16,12 @@ export default class CidadeController {
                 result.data.forEach(element => {
                     let obj = new Estado()
                         obj.id = element.id
-                        obj.sigla = element.name
-                        obj.nome = element.microrregiao.mesoregiao.id
+                        obj.sigla = element.sigla
+                        obj.nome = element.nome
                     let query = new Estados()
                         query.importarEstados(obj)
+
+                    count++
                 });
 
                 return res.status(200).send(count + ' estados importados com sucesso!')

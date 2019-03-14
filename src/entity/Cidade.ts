@@ -1,5 +1,5 @@
 import "reflect-metadata"
-import {Entity, PrimaryColumn, Column, OneToOne, JoinColumn} from "typeorm";
+import {Entity, PrimaryColumn, Column, JoinColumn, ManyToOne} from "typeorm";
 import { Estado } from './Estado'
 @Entity()
 export class Cidade {
@@ -10,7 +10,7 @@ export class Cidade {
     @Column('text')
     cidade:string
 
-    @OneToOne(type => Estado)
+    @ManyToOne(type => Estado)
     @JoinColumn()
     estado: Estado
 

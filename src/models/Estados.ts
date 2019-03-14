@@ -11,6 +11,7 @@ export default class Estados {
 
     importarEstados(Estado:Estado){
         this._connection.manager.save(Estado)
+        .then(res => console.log(res))
         .catch(err => {
         console.log(err)
         throw new Error(err)

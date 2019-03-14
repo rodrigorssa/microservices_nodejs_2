@@ -2,7 +2,7 @@ import app from "../../config/custom-express";
 import { Request, Response } from 'express'
 import CidadeController from '../controllers/cidadeController'
 
-export default class CidadesRouter {
+export class CidadesRouter {
     
     _app;
 

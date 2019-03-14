@@ -16,7 +16,19 @@ export class CidadesRouter {
             cidades.importarCidades(req, res)
     }
 
+    getAll(req:Request,res:Response){
+        let cidades = new CidadeController()
+            cidades.getAll(req, res)
+    }
+
+    getByName(req:Request,res:Response){
+        let cidades = new CidadeController()
+            cidades.getByName(req, res)
+    }
+
     router(){
-        app.get('/importar-cidades',this.getCidades)
+        app.get('/cidades/importar',this.getCidades)
+        app.get('/cidades',this.getAll)
+        app.get('/cidades/:nome',this.getByName)
     }
 }

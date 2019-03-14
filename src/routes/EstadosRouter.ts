@@ -16,7 +16,13 @@ export class EstadosRouter {
             cidades.importarEstados(req, res)
     }
 
+    getAll(req:Request,res:Response){
+        let cidades = new EstadoController()
+            cidades.getAll(req, res)
+    }
+
     router(){
-        app.get('/importar-estados',this.getEstados)
+        app.get('/estados/importar',this.getEstados)
+        app.get('/estados',this.getAll)
     }
 }

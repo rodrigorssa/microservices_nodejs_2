@@ -17,4 +17,8 @@ export default class Estados {
         throw new Error(err)
         })
     }
+
+    getAll(){
+        return this._connection.manager.find(Estado).catch(err => console.log(err))
+    }
 }

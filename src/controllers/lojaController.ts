@@ -34,8 +34,8 @@ export default class LojaController {
         loja.phone = req.body.phone
         loja.cnpj = req.body.cnpj
         loja.workingHour = req.body.workingHour
-        loja.city = req.body.city
-        loja.state = req.body.state
+        loja.cidade = req.body.city
+        loja.estado = req.body.state
 
         const lojas = new Lojas()
         let dados = await lojas.salva(loja)

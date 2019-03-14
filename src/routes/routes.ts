@@ -1,6 +1,5 @@
 import { createConnection } from 'typeorm'
-import LojasRouter from './LojasRouter'
-import { CidadesRouter, EstadosRouter } from './index'
+import {LojasRouter, CidadesRouter, EstadosRouter } from './index'
 export default (app:any) => {
 
     createConnection().then(async () => {

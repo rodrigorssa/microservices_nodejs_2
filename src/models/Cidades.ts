@@ -10,10 +10,18 @@ export default class Cidades {
     }
 
     importarCidades(Cidade:Cidade){
-        this._connection.manager.save(Cidade)
-        .catch(err => {
-        console.log(err)
-        throw new Error(err)
-        })
+        return this._connection.manager.save(Cidade)
+            .catch(err => {
+            console.log(err)
+            throw new Error(err)
+            })
+    }
+
+    getAll(){
+        return this._connection.manager.find(Cidade).catch(err => console.log(err))
+    }
+
+    getByName(nome : string){
+        return this._connection.manager.find(Cidade, { cidade: nome }).catch(err => console.log(err))
     }
 }

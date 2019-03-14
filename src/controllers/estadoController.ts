@@ -3,7 +3,7 @@ import { EstadoService } from '../services/index'
 import { Request, Response } from 'express'
 import Estados  from '../models/Estados'
 
-export default class CidadeController {
+export default class EstadoController {
 
     async importarEstados(req:Request,res:Response){
         let estados = new EstadoService()  
@@ -30,6 +30,17 @@ export default class CidadeController {
                 console.log(err);
                 return res.status(500).json('Erro interno do servidor')
             })
+    }
+
+    async getAll(req:Request,res:Response){
+        let estados = new Estados()
+            let query = await estados.getAll()
+            if(!query) res.status(404).json('Nenhuma cidade encontrada')
+            res.status(200).json(query)
+    }
+
+    isEmpty(result:any){
+        return (!Object.keys(result).length)
     }
 
 }

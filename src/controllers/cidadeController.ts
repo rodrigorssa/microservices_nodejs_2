@@ -32,4 +32,23 @@ export default class CidadeController {
             })
     }
 
+    async getAll(req:Request,res:Response){
+        let cidades = new Cidades()
+            let query = await cidades.getAll()
+            if(!query) res.status(404).json('Nenhuma cidade encontrada')
+            res.status(200).json(query)
+    }
+
+    async getByName(req:Request,res:Response){
+        console.log(req.params.nome)
+        let cidades = new Cidades()
+            let query = await cidades.getByName(req.params.nome)
+            if(this.isEmpty(query)) res.status(404).json('Nenhuma cidade encontrada')
+            res.status(200).json(query)
+    }
+
+    isEmpty(result:any){
+        return (!Object.keys(result).length)
+    }
+
 }

@@ -1,5 +1,5 @@
 import {getConnection, Connection} from "typeorm";
-import { Loja } from '../entity/index'
+import { Loja, Estado } from '../entity/index'
 
 class Lojas {
 
@@ -27,7 +27,7 @@ class Lojas {
     }
 
     buscaPorEstado(estado:string){
-        return this._connection.manager.find(Loja, {state: estado} ).catch(err => console.log(err))
+        return this._connection.manager.find(Loja,{ where: { estado: estado } } ).catch(err => console.log(err))
     }
 
     atualiza(query:Loja){

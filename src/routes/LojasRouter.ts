@@ -1,5 +1,5 @@
 import { Request, Response }  from 'express'
-import LojaController from '../../controllers/lojaController'
+import LojaController from '../controllers/lojaController'
 
 export default class LojasRouter {
 

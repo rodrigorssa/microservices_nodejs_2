@@ -31,13 +31,13 @@ class Lojas {
     }
 
     atualiza(query:Loja){
-        return this._connection.manager.save(Loja,query)
+        return this._connection.manager.save(Loja, query)
             .then(loja => loja)
             .catch(err => console.log(err))
     }
 
     deletar(id:number){
-        return this._connection.manager.delete(Loja,id)
+        return this._connection.manager.delete(Loja, id)
             .then(ret => ret)
             .catch(err => console.log(err))
     }

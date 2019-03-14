@@ -35,7 +35,7 @@ describe('POST /lojas/',() =>{
         state: "A"
     }
 
-    it('deve inserindo uma loja no banco', () => {
+    it('inserindo uma loja no banco...', () => {
         jest.setTimeout(5000)
         return request.post('/lojas')
                 .set('Accept', 'application/json')

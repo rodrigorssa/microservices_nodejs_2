@@ -2,7 +2,7 @@ import Lojas from '../models/Lojas'
 import { Loja } from '../entity/index'
 import { Request, Response } from 'express'
 
-class LojaController {
+export default class LojaController {
 
     async post(req:Request, res:Response){
         
@@ -45,11 +45,8 @@ class LojaController {
 
     async getAll(req:Request,res:Response,params:object = null){
         const lojas = new Lojas()
-        
         let query = await lojas.buscaLojas(params)
-
         if(this.isEmpty(query)) return res.status(404).json({errorCode : 404, msg:"Nenhuma loja encontrada"})
-
         return res.status(200).json(query)
     }
 
@@ -83,7 +80,6 @@ class LojaController {
         let dadosAtualizados = await lojas.atualiza(mergeDados)      
         return res.status(200).json(dadosAtualizados)
     } 
-
     
     async delete(id:number,req:any,res:any){
         //verificando se o ID existe no banco
@@ -91,15 +87,13 @@ class LojaController {
             //lojas.buscaPorId(id)
         let query = await lojas.buscaPorId(id)
         if(!query) return res.status(404).json({errorCode : 404, msg:"Nenhuma loja encontrada"})
-        let status = await lojas.deletar(id)
         return res.status(200).json('Loja deletada com sucesso!')
     }
 
     //funçao de validação de retornos vazios
 
     isEmpty(result:any){
-        if(Object.keys(result).length === 0 ) return true; else return false;
+        return (!Object.keys(result).length)
     }
 
 }
-export default LojaController

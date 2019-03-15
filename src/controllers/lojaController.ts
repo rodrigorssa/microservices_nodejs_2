@@ -25,19 +25,19 @@ export default class LojaController {
             }
             return res.status(400).json(msg)
        }
-
+       
         //adicionando dados em variável, instanciando o objeto para salvar no bd
-        let loja = new Loja()
-        loja.name = req.body.name
-        loja.address = req.body.address
-        loja.phone = req.body.phone
-        loja.cnpj = req.body.cnpj
-        loja.workingHour = req.body.workingHour
-        loja.cidade = req.body.cidade
-        loja.estado = req.body.estado
-
-        const lojas = new Lojas()
-        let dados = await lojas.salva(loja)
+            let loja = new Loja()
+            loja.name = req.body.name
+            loja.address = req.body.address
+            loja.phone = req.body.phone
+            loja.cnpj = req.body.cnpj
+            loja.workingHour = req.body.workingHour
+            loja.cidade = req.body.cidade
+            loja.estado = req.body.estado
+    
+            const lojas = new Lojas()
+            let dados =await lojas.salva(loja)
 
         return res.status(201).json(dados)
     }

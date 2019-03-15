@@ -25,10 +25,17 @@ export class CidadesRouter {
         let cidades = new CidadeController()
             cidades.getByName(req, res)
     }
+    getPagination(req:Request,res:Response){
+        let cidades = new CidadeController()
+            cidades.getPagination(req, res)
+    }
 
     router(){
         app.get('/cidades/importar',this.getCidades)
-        app.get('/cidades',this.getAll)
+        app.get('/cidades',(req,res) => {
+            res.redirect(301,'/cidades/pagina/1')
+        })
         app.get('/cidades/:nome',this.getByName)
+        app.get('/cidades/pagina/:index',this.getPagination)
     }
 }

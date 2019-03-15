@@ -12,18 +12,20 @@ export default class CidadeController {
                 if(!result) return res.status(400).json('Nenhuma cidade encontrada.')
 
                 let count = 0
+                let { data } = result
 
-                result.data.forEach(element => {
+                for(let index = 0; index < data.length; index++) {
                     let obj = new Cidade()
-                        obj.id = element.id
-                        obj.cidade = element.nome
-                        obj.estado = element.microrregiao.mesorregiao.UF.id
-                    let query = new Cidades()
-                        query.importarCidades(obj)
+                    obj.id = data[index].id
+                    obj.cidade = data[index].nome
+                    obj.estado = data[index].microrregiao.mesorregiao.UF.id
 
-                    count++
-                });
+                let query = new Cidades()
+                    query.importarCidades(obj)
 
+                count++
+                    
+                }
                 return res.status(200).send(count + ' cidades importadas com sucesso!')
             })
             .catch(err => {
@@ -40,9 +42,15 @@ export default class CidadeController {
     }
 
     async getByName(req:Request,res:Response){
-        console.log(req.params.nome)
         let cidades = new Cidades()
             let query = await cidades.getByName(req.params.nome)
+            if(this.isEmpty(query)) res.status(404).json('Nenhuma cidade encontrada')
+            res.status(200).json(query)
+    }
+
+    async getPagination(req:Request,res:Response){
+        let cidades = new Cidades()
+            let query = await cidades.getPagination(req.params.index)
             if(this.isEmpty(query)) res.status(404).json('Nenhuma cidade encontrada')
             res.status(200).json(query)
     }

@@ -24,4 +24,11 @@ export default class Cidades {
     getByName(nome : string){
         return this._connection.manager.find(Cidade, { cidade: nome }).catch(err => console.log(err))
     }
+
+    getPagination(param:number){
+        let index = 100 * param
+        return this._connection.manager.find(Cidade, { skip: index, take:100 }).catch(err => console.log(err))
+    }
+
+    
 }

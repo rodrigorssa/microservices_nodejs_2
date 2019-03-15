@@ -12,8 +12,8 @@ export default class LojaController {
         req.assert('phone','Campo phone é obrigatório.').notEmpty()
         req.assert('cnpj','Campo cnpj é obrigatório.').notEmpty()
         req.assert('workingHour','Campo workingHour é obrigatório.').notEmpty()
-        req.assert('city','Campo city é obrigatório.').notEmpty()
-        req.assert('state','Campo state é obrigatório.').notEmpty()
+        req.assert('cidade.id','Campo cidade é obrigatório.').notEmpty()
+        req.assert('estado.id','Campo estado é obrigatório.').notEmpty()
 
         let err:any = req.validationErrors()
 
@@ -23,9 +23,8 @@ export default class LojaController {
                 errorCode: 400,
                 msg: err.map(item => item.msg )
             }
-            res.status(400).json(msg)
-            return
-        }
+            return res.status(400).json(msg)
+       }
 
         //adicionando dados em variável, instanciando o objeto para salvar no bd
         let loja = new Loja()
@@ -34,8 +33,8 @@ export default class LojaController {
         loja.phone = req.body.phone
         loja.cnpj = req.body.cnpj
         loja.workingHour = req.body.workingHour
-        loja.cidade = req.body.city
-        loja.estado = req.body.state
+        loja.cidade = req.body.cidade
+        loja.estado = req.body.estado
 
         const lojas = new Lojas()
         let dados = await lojas.salva(loja)

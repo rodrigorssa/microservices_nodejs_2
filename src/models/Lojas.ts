@@ -32,11 +32,11 @@ class Lojas {
         }).catch(err => console.log(err))
     }
 
-    buscaPorEstado(estado:string){
-        return this._connection.manager.find(Loja, {
-            relations: ["cidade", "estado"],
-            where: { estado }
-        } ).catch(err => console.log(err))
+    buscaPorEstado(sigla:string){
+        return this._connection.getRepository(Loja).createQueryBuilder("loja")
+        .innerJoin("loja.estado", "estado")
+        .where("estado.sigla = :estado", { estado: sigla })
+        .getMany().catch(err => console.log(err))
     }
 
     atualiza(query:Loja){

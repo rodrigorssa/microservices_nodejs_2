@@ -1,5 +1,5 @@
 import {getConnection, Connection} from "typeorm";
-import { Loja, Estado } from '../entity/index'
+import { Loja} from '../entity/index'
 
 class Lojas {
 
@@ -19,15 +19,24 @@ class Lojas {
     }
     
     buscaLojas(params: object = null){
-        return this._connection.manager.find(Loja, params).catch(err => console.log(err))
+        return this._connection.manager.find(Loja, {
+            relations: ["cidade", "estado"],
+            where: { params}
+        }).catch(err => console.log(err))
     }
 
     buscaPorId(id:number){
-        return this._connection.manager.findOne(Loja, id).catch(err => console.log(err))
+        return this._connection.manager.findOne(Loja,{
+            relations: ["cidade", "estado"],
+            where: { id }
+        }).catch(err => console.log(err))
     }
 
     buscaPorEstado(estado:string){
-        return this._connection.manager.find(Loja,{ where: { estado: estado } } ).catch(err => console.log(err))
+        return this._connection.manager.find(Loja, {
+            relations: ["cidade", "estado"],
+            where: { estado }
+        } ).catch(err => console.log(err))
     }
 
     atualiza(query:Loja){

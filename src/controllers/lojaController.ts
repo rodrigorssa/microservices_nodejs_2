@@ -42,9 +42,12 @@ export default class LojaController {
         return res.status(201).json(dados)
     }
 
-    async getAll(req:Request,res:Response,params:object = null){
+    async getAll(req:Request,res:Response){
+        //verificando se existe parâmetro de entrada, se não houver, o parametro é nulo
+        let params = (req.params) ? req.params : null       
         const lojas = new Lojas()
         let query = await lojas.buscaLojas(params)
+              
         if(this.isEmpty(query)) return res.status(404).json({errorCode : 404, msg:"Nenhuma loja encontrada"})
         return res.status(200).json(query)
     }
@@ -80,12 +83,16 @@ export default class LojaController {
         return res.status(200).json(dadosAtualizados)
     } 
     
-    async delete(id:number,req:any,res:any){
+    async delete(req:any,res:any){
+        let { id } = req.params
         //verificando se o ID existe no banco
         const lojas = new Lojas()
             //lojas.buscaPorId(id)
-        let query = await lojas.buscaPorId(id)
+        let query = await lojas.buscaPorId(id)      
         if(!query) return res.status(404).json({errorCode : 404, msg:"Nenhuma loja encontrada"})
+        
+        await lojas.deletar(id)
+        
         return res.status(200).json('Loja deletada com sucesso!')
     }
 

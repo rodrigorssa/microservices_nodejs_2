@@ -18,11 +18,15 @@ class Lojas {
             })
     }
     
-    buscaLojas(params: object = null){
-        return this._connection.manager.find(Loja, {
-            relations: ["cidade", "estado"],
-            where: { params}
-        }).catch(err => console.log(err))
+    buscaLojas(params?:any){
+        //verificando se existe algum indice dentro do retorno
+        let query = (Object.keys(params).length) ? `estado.sigla = '${params.estado}' AND cidade.cidade = '${params.cidade}'` : ''
+       
+        return this._connection.getRepository(Loja).createQueryBuilder("loja")
+        .innerJoinAndSelect("loja.estado", "estado")
+        .innerJoinAndSelect("loja.cidade", "cidade")
+        .where(query)
+        .getMany().catch(err => console.log(err))
     }
 
     buscaPorId(id:number){
@@ -34,7 +38,8 @@ class Lojas {
 
     buscaPorEstado(sigla:string){
         return this._connection.getRepository(Loja).createQueryBuilder("loja")
-        .innerJoin("loja.estado", "estado")
+        .innerJoinAndSelect("loja.estado", "estado")
+        .innerJoinAndSelect("loja.cidade", "cidade")
         .where("estado.sigla = :estado", { estado: sigla })
         .getMany().catch(err => console.log(err))
     }

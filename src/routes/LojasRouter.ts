@@ -1,5 +1,6 @@
 import { Request, Response }  from 'express'
 import LojaController from '../controllers/lojaController'
+import { LojaService } from '../services/index'
 
 export class LojasRouter {
 
@@ -21,12 +22,9 @@ export class LojasRouter {
             lojaController.post(req,res)
         }
 
-    getStateCity(req:Request, res:Response){
-        //consultando por cidade e estado
-        let params = req.params
-        console.log(params)        
+    getStateCity(req:Request, res:Response){        
         let lojaController = new LojaController()
-            lojaController.getAll(req,res,params)
+            lojaController.getAll(req,res)
         }
 
     getParam(req:Request, res:Response) {
@@ -48,10 +46,14 @@ export class LojasRouter {
             lojaController.put(req,res,id)
     }
     
-    deletar(req:Request, res:Response) {
-        let id = req.params.id         
+    deletar(req:Request, res:Response) {     
         let lojaController = new LojaController()
-            lojaController.delete(id,req,res)
+            lojaController.delete(req,res)
+    }
+
+    importaLojas(req:Request, res:Response){
+        let lojaServico = new LojaService()
+            lojaServico.postJSON(req,res)
     }
 
     router(){
@@ -63,7 +65,10 @@ export class LojasRouter {
         this._app.route('/lojas')
             .get(this.getAll)
             .post(this.post)
-        
+
+        this._app.route('/lojas/importar')
+            .get(this.importaLojas)
+            
         this._app.route('/lojas/:id')
             .put(this.put)
             .delete(this.deletar)
@@ -71,7 +76,7 @@ export class LojasRouter {
         this._app.route('/lojas/:param')
             .get(this.getParam)
 
-        this._app.route('/lojas/:state/:city')
+        this._app.route('/lojas/:estado/:cidade')
             .get(this.getStateCity)
     }
 } 

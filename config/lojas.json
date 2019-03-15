@@ -1,5 +1,4 @@
-{
-    "lojas":[
+[
         {
             "name": "Loja A",
             "address": "Rua Abc, 000",
@@ -53,4 +52,3 @@
             }
         }
     ]
-}

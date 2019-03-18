@@ -1,28 +1,25 @@
 import Lojas from '../models/Lojas'
 import { Loja } from '../entity/index'
 import { Request, Response } from 'express'
+import * as Errors from '../helpers/errors'
 
 export default class LojaController {
 
     async post(req:Request, res:Response){
         
+        //nome dos campos do formulario
+        let keys = ['name','address','phone','cnpj','workingHour','cidade.id','estado.id']
+
         //validando dados de entrada
-        req.assert('name','Campo name é obrigatório.').notEmpty()
-        req.assert('address','Campo address é obrigatório.').notEmpty()
-        req.assert('phone','Campo phone é obrigatório.').notEmpty()
-        req.assert('cnpj','Campo cnpj é obrigatório.').notEmpty()
-        req.assert('workingHour','Campo workingHour é obrigatório.').notEmpty()
-        req.assert('cidade.id','Campo cidade é obrigatório.').notEmpty()
-        req.assert('estado.id','Campo estado é obrigatório.').notEmpty()
+        for (let index = 0; index < keys.length; index++) {
+            req.assert(keys[index],`Campo ${keys[index]} é obrigatório.`).notEmpty()             
+        }
 
         let err:any = req.validationErrors()
 
         //se tiver algum erro o post não envia e mostra mensagem de erro
         if(err) {
-            let msg = {
-                errorCode: 400,
-                msg: err.map(item => item.msg )
-            }
+            let msg = Errors.sendMsgError(err.map( item => item.msg ))
             return res.status(400).json(msg)
        }
        
@@ -42,24 +39,33 @@ export default class LojaController {
         return res.status(201).json(dados)
     }
 
-    async getAll(req:Request,res:Response,params:object = null){
+    async getAll(req:Request,res:Response){
+        //verificando se existe parâmetro de entrada, se não houver, o parametro é null
+        let params = (req.params) ? req.params : {}
+        let body = (req.body.cidades) ? req.body.cidades : {}
+
+        let obj = {
+            params: params,
+            body: body
+        }
+
         const lojas = new Lojas()
-        let query = await lojas.buscaLojas(params)
-        if(this.isEmpty(query)) return res.status(404).json({errorCode : 404, msg:"Nenhuma loja encontrada"})
+        let query = await lojas.buscaLojas(obj)
+        if(this.isEmpty(query)) return res.status(404).json(Errors.sendError404())
         return res.status(200).json(query)
     }
 
     async getById(req:Request,res:Response,id:number){
         const lojas = new Lojas()
             let query = await lojas.buscaPorId(id)
-            if(!query) return res.status(404).json({errorCode : 404, msg:"Nenhuma loja encontrada"})
+            if(!query) return res.status(404).json(Errors.sendError404())
             return res.status(200).json(query)
     }
 
     async getByState(req:Request,res:Response,state:string){
         const lojas = new Lojas()
         let query = await lojas.buscaPorEstado(state)
-        if(this.isEmpty(query)) return res.status(404).json({errorCode : 404, msg:"Nenhuma loja encontrada"})
+        if(this.isEmpty(query)) return res.status(404).json(Errors.sendError404())
         return res.status(200).json(query)
            
     }
@@ -68,7 +74,7 @@ export default class LojaController {
         //verificando se o ID existe no banco
         const lojas = new Lojas()
         let query = await lojas.buscaPorId(id)
-        if(!query) return res.status(404).json({errorCode : 404, msg:"Nenhuma loja encontrada"})
+        if(!query) return res.status(404).json(Errors.sendError404())
         
         //validando propriedades vazias
         let inputData = req.body;
@@ -80,12 +86,16 @@ export default class LojaController {
         return res.status(200).json(dadosAtualizados)
     } 
     
-    async delete(id:number,req:any,res:any){
+    async delete(req:any,res:any){
+        let { id } = req.params
         //verificando se o ID existe no banco
         const lojas = new Lojas()
             //lojas.buscaPorId(id)
-        let query = await lojas.buscaPorId(id)
-        if(!query) return res.status(404).json({errorCode : 404, msg:"Nenhuma loja encontrada"})
+        let query = await lojas.buscaPorId(id)      
+        if(!query) return res.status(404).json(Errors.sendError404())
+        
+        await lojas.deletar(id)
+        
         return res.status(200).json('Loja deletada com sucesso!')
     }
 

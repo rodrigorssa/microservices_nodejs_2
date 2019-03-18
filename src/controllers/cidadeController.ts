@@ -2,6 +2,7 @@ import { Cidade } from '../entity/Cidade'
 import { CidadeService } from '../services/index'
 import { Request, Response } from 'express'
 import Cidades  from '../models/Cidades'
+import * as Errors from '../helpers/errors'
 
 export default class CidadeController {
 
@@ -9,7 +10,7 @@ export default class CidadeController {
         let cidades = new CidadeService()  
             cidades.getCidades()
             .then(result => {
-                if(!result) return res.status(400).json('Nenhuma cidade encontrada.')
+                if(!result) return res.status(400).json(Errors.sendMsgError(['Nenhuma cidade foi retornada.']))
 
                 let count = 0
                 let { data } = result
@@ -37,21 +38,21 @@ export default class CidadeController {
     async getAll(req:Request,res:Response){
         let cidades = new Cidades()
             let query = await cidades.getAll()
-            if(!query) res.status(404).json('Nenhuma cidade encontrada')
+            if(!query) res.status(404).json(Errors.sendError404())
             res.status(200).json(query)
     }
 
     async getByName(req:Request,res:Response){
         let cidades = new Cidades()
             let query = await cidades.getByName(req.params.nome)
-            if(this.isEmpty(query)) res.status(404).json('Nenhuma cidade encontrada')
+            if(this.isEmpty(query)) res.status(404).json(Errors.sendError404())
             res.status(200).json(query)
     }
 
     async getPagination(req:Request,res:Response){
         let cidades = new Cidades()
             let query = await cidades.getPagination(req.params.index)
-            if(this.isEmpty(query)) res.status(404).json('Nenhuma cidade encontrada')
+            if(this.isEmpty(query)) res.status(404).json(Errors.sendError404())
             res.status(200).json(query)
     }
 

@@ -2,6 +2,7 @@ import { Estado } from '../entity/Estado'
 import { EstadoService } from '../services/index'
 import { Request, Response } from 'express'
 import Estados  from '../models/Estados'
+import * as Errors from '../helpers/errors'
 
 export default class EstadoController {
 
@@ -9,7 +10,7 @@ export default class EstadoController {
         let estados = new EstadoService()  
             estados.getEstados()
             .then(result => {
-                if(!result) return res.status(400).json('Nenhuma cidade encontrada.')
+                if(!result) return res.status(400).json(Errors.sendError404())
 
                 let count = 0
 
@@ -28,14 +29,14 @@ export default class EstadoController {
             })
             .catch(err => {
                 console.log(err);
-                return res.status(500).json('Erro interno do servidor')
+                return res.status(500).json(Errors.sendError500())
             })
     }
 
     async getAll(req:Request,res:Response){
         let estados = new Estados()
             let query = await estados.getAll()
-            if(!query) res.status(404).json('Nenhuma cidade encontrada')
+            if(!query) res.status(404).json(Errors.sendError404())
             res.status(200).json(query)
     }
 

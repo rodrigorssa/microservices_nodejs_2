@@ -46,12 +46,8 @@ class Lojas {
 
     buscaPorEstado(sigla:string){
         return this._connection.getRepository(Loja).createQueryBuilder("loja")
-<<<<<<< HEAD
-        .innerJoin("loja.estado", "estado")
-=======
         .innerJoinAndSelect("loja.estado", "estado")
         .innerJoinAndSelect("loja.cidade", "cidade")
->>>>>>> master
         .where("estado.sigla = :estado", { estado: sigla })
         .getMany().catch(err => console.log(err))
     }

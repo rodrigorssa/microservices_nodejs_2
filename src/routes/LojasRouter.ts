@@ -14,18 +14,18 @@ export class LojasRouter {
     getAll(req:Request, res:Response)  {    
         let lojaController = new LojaController()
             lojaController.getAll(req,res)
-        }
+    }
 
     post(req:Request, res:Response) {
         //instanciando objeto Controller e passando os dados de request e response
         let lojaController = new LojaController()
             lojaController.post(req,res)
-        }
+    }
 
     getStateCity(req:Request, res:Response){        
         let lojaController = new LojaController()
             lojaController.getAll(req,res)
-        }
+    }
 
     getParam(req:Request, res:Response) {
         let param = req.params.param   
@@ -69,6 +69,10 @@ export class LojasRouter {
         this._app.route('/lojas/importar')
             .get(this.importaLojas)
             
+
+        this._app.route('/lojas/cidades')
+            .post(this.getAll)
+            
         this._app.route('/lojas/:id')
             .put(this.put)
             .delete(this.deletar)
@@ -79,4 +83,5 @@ export class LojasRouter {
         this._app.route('/lojas/:estado/:cidade')
             .get(this.getStateCity)
     }
+    
 } 

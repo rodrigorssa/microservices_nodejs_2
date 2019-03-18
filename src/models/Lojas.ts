@@ -18,10 +18,18 @@ class Lojas {
             })
     }
     
-    buscaLojas(params?:any){
+    buscaLojas(obj?:any){
         //verificando se existe algum indice dentro do retorno
-        let query = (Object.keys(params).length) ? `estado.sigla = '${params.estado}' AND cidade.cidade = '${params.cidade}'` : ''
-       
+        //let Params = (Object.keys(params).length) ? `estado.sigla = '${params.estado}' AND cidade.cidade = '${params.cidade}'` : ''
+        let query = ''
+
+        if(Object.keys(obj.params).length){
+            query = `estado.sigla = '${obj.params.estado}' AND cidade.cidade = '${obj.params.cidade}'`
+        }else if(Object.keys(obj.body).length){
+            let cidades = obj.body.map((e:string) => `'${e}'`)
+            query =`cidade.cidade IN(${cidades})`
+        }
+        
         return this._connection.getRepository(Loja).createQueryBuilder("loja")
         .innerJoinAndSelect("loja.estado", "estado")
         .innerJoinAndSelect("loja.cidade", "cidade")

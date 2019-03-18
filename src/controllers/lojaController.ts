@@ -40,11 +40,17 @@ export default class LojaController {
     }
 
     async getAll(req:Request,res:Response){
-        //verificando se existe parâmetro de entrada, se não houver, o parametro é nulo
-        let params = (req.params) ? req.params : null       
+        //verificando se existe parâmetro de entrada, se não houver, o parametro é null
+        let params = (req.params) ? req.params : {}
+        let body = (req.body.cidades) ? req.body.cidades : {}
+
+        let obj = {
+            params: params,
+            body: body
+        }
+
         const lojas = new Lojas()
-        let query = await lojas.buscaLojas(params)
-              
+        let query = await lojas.buscaLojas(obj)
         if(this.isEmpty(query)) return res.status(404).json(Errors.sendError404())
         return res.status(200).json(query)
     }

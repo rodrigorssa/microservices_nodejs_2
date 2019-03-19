@@ -3,13 +3,13 @@ import { Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, JoinColumn } 
 import { Loja } from './Loja';
 
 @Entity()
-export class Clientes{
+export class Cliente{
 
-    @PrimaryColumn()
+    @PrimaryColumn('bigint')
     cpf:number
 
     @ManyToOne(type => Loja, entity => entity.id)
-    @JoinColumn({name: 'LojaId'})
+    @JoinColumn({name: 'lojaId'})
     loja:Loja
 
 }

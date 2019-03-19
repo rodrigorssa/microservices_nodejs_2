@@ -1,4 +1,3 @@
-import app from "../../config/custom-express";
 import { Request, Response } from 'express'
 import CidadeController from '../controllers/cidadeController'
 
@@ -31,11 +30,11 @@ export class CidadesRouter {
     }
 
     router(){
-        app.get('/cidades/importar',this.getCidades)
-        app.get('/cidades',(req,res) => {
+        this._app.get('/cidades/importar',this.getCidades)
+        this._app.get('/cidades',(req,res) => {
             res.redirect(301,'/cidades/pagina/1')
         })
-        app.get('/cidades/:nome',this.getByName)
-        app.get('/cidades/pagina/:index',this.getPagination)
+        this._app.get('/cidades/:nome',this.getByName)
+        this._app.get('/cidades/pagina/:index',this.getPagination)
     }
 }

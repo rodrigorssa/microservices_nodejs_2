@@ -1,4 +1,3 @@
-import app from "../../config/custom-express";
 import { Request, Response } from 'express'
 import EstadoController from '../controllers/estadoController'
 
@@ -22,7 +21,7 @@ export class EstadosRouter {
     }
 
     router(){
-        app.get('/estados/importar',this.getEstados)
-        app.get('/estados',this.getAll)
+        this._app.get('/estados/importar',this.getEstados)
+        this._app.get('/estados',this.getAll)
     }
 }

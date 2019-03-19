@@ -21,4 +21,8 @@ export default class Estados {
     getAll(){
         return this._connection.manager.find(Estado).catch(err => console.log(err))
     }
+
+    getById(id:number){
+        return this._connection.manager.findOne(Estado,id).catch(err => console.log(err))
+    }
 }

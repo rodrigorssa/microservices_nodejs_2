@@ -1,9 +1,6 @@
-import { createConnection } from 'typeorm'
 import {LojasRouter, CidadesRouter, EstadosRouter } from './index'
-export default (app:any) => {
-
-    createConnection().then(async () => {
-        
+export default (app) => {
+       
         new LojasRouter(app)
         new CidadesRouter(app)
         new EstadosRouter(app)
@@ -12,5 +9,5 @@ export default (app:any) => {
         app.use((req, res) => {
             res.status(404).json({errorCode: 404, msg: 'Pagina não encontrada!'});
         });
-})
+
 }

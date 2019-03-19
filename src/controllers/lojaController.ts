@@ -1,5 +1,6 @@
 import Lojas from '../models/Lojas'
-import { Loja } from '../entity/index'
+import Cidades from '../models/Cidades'
+import { Loja, Cidade } from '../entity/index'
 import { Request, Response } from 'express'
 import * as Errors from '../helpers/errors'
 
@@ -23,6 +24,16 @@ export default class LojaController {
             return res.status(400).json(msg)
        }
 
+        //verificando se a cidade passada pertence ao estado inserido
+        let cidades = new Cidades()
+        let cidade = await cidades.getById(req.body.cidade.id)
+                    .then((result:Cidade) => result)
+                    .catch(err => {
+                        console.log(err); 
+                        return res.status(500).send(Errors.sendError500())})
+        if(!cidade) return res.status(404).send(Errors.sendMsgError(['Cidade não encontrada']))
+        if(cidade.estado.id != req.body.estado.id) return res.status(400).send(Errors.sendMsgError(['Cidade não pertence ao estado enviado']))
+        
         //adicionando dados em variável, instanciando o objeto para salvar no bd
         let loja = new Loja()
         loja.name = req.body.name
@@ -30,8 +41,8 @@ export default class LojaController {
         loja.phone = req.body.phone
         loja.cnpj = req.body.cnpj
         loja.workingHour = req.body.workingHour
-        loja.cidade = req.body.cidade
-        loja.estado = req.body.estado
+        loja.cidade = req.body.cidade.id
+        loja.estado = req.body.estado.id
 
         const lojas = new Lojas()
         let dados = await lojas.salva(loja)

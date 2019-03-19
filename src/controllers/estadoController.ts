@@ -14,16 +14,17 @@ export default class EstadoController {
 
                 let count = 0
 
-                result.data.forEach(element => {
+                for (let index = 0; index < result.data.length; index++) {
                     let obj = new Estado()
-                        obj.id = element.id
-                        obj.sigla = element.sigla
-                        obj.nome = element.nome
-                    let query = new Estados()
-                        query.importarEstados(obj)
+                    obj.id = result.data[index].id
+                    obj.sigla = result.data[index].sigla
+                    obj.nome = result.data[index].nome
+                let query = new Estados()
+                    query.importarEstados(obj)
 
-                    count++
-                });
+                count++
+                    
+                }
 
                 return res.status(200).send(count + ' estados importados com sucesso!')
             })

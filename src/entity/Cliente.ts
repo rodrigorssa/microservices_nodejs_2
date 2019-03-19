@@ -8,7 +8,7 @@ export class Cliente{
     @PrimaryColumn('bigint')
     cpf:number
 
-    @ManyToOne(type => Loja, entity => entity.id)
+    @ManyToOne(type => Loja, loja => loja.id)
     @JoinColumn({name: 'lojaId'})
     loja:Loja
 

@@ -18,7 +18,7 @@ export default class Clientes {
     }
 
     getByCPF(cpf:number){
-        return this._connection.manager.findOne(Cliente,{ where: { cpf }}).catch(err => console.log(err))
+        return this._connection.manager.findOne(Cliente,{ where: { cpf }, relations:["loja"]}).catch(err => console.log(err))
     }
 
     update(cliente:Cliente){

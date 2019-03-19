@@ -38,7 +38,7 @@ export class ClientesRouter {
     router(){
         this._app.get('/clientes',this.getAll)
         this._app.get('/clientes/importar',this.importarClientes)
-        this._app.route('/clientes/:id')
+        this._app.route('/clientes/:cpf')
             .get(this.getByCPF)
             .put(this.update)
             .delete(this.delete)

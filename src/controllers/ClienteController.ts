@@ -18,14 +18,13 @@ export default class ClienteController {
     }
 
     async getByCPF(req:Request , res:Response){
-        let query = this.ifExists(req.params.cpf, req, res)
-        if(!query) return res.status(404).json(Errors.sendError404())
+        let query = await this.ifExists(req.params.cpf, req, res)     
         return res.status(200).json(query) 
     }
 
     async update(req:Request , res:Response){
 
-        this.ifExists(req.params.cpf, req, res)
+        await this.ifExists(req.params.cpf, req, res)
 
         let cliente = new Cliente()
         cliente.cpf = req.params.cpf
@@ -44,7 +43,7 @@ export default class ClienteController {
 
     async delete(req:Request , res:Response) {
 
-        this.ifExists(req.params.cpf, req, res)
+       await this.ifExists(req.params.cpf, req, res)
 
         let query = await new Clientes().delete(req.params.cpf).catch(err => {
             console.log(err);
@@ -62,8 +61,14 @@ export default class ClienteController {
             console.log(err);
             return res.status(500).json(Errors.sendError500())
         })  
-        if(!dados) return res.status(404).json(Errors.sendError404())
+        if(this.isEmpty(dados)) return res.status(404).json(Errors.sendError404())
         return dados;
+    }
+
+      //funçao de validação de retornos de objetos vazios
+
+      isEmpty(result:any){
+        return (!Object.keys(result).length)
     }
     
 }

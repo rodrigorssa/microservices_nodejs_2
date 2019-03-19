@@ -110,7 +110,7 @@ export default class LojaController {
         return res.status(200).json('Loja deletada com sucesso!')
     }
 
-    //funçao de validação de retornos vazios
+    //funçao de validação de retornos de objetos vazios
 
     isEmpty(result:any){
         return (!Object.keys(result).length)

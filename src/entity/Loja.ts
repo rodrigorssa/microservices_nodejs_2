@@ -1,7 +1,6 @@
 import "reflect-metadata"
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany} from "typeorm";
-import { Cidade, Estado } from '../entity/index'
-import { Cliente } from "./Cliente";
+import { Cidade, Estado, Cliente } from '../entity/index'
 
 @Entity()
 export class Loja  {
@@ -26,14 +25,13 @@ export class Loja  {
     
     @ManyToOne(type => Cidade, entity => entity.id)
     @JoinColumn({ name: "cidadeId" })
-    cidade: Cidade;
+    cidade: Cidade
 
     @ManyToOne(type => Estado, entity => entity.id)
     @JoinColumn({ name: "estadoId" })
-    estado: Estado;
+    estado: Estado
 
-    @OneToMany(type => Cliente, entity => entity.cpf)
-    @JoinColumn({ name: "clienteId" })
-    cliente: Cliente;
+    @OneToMany(type => Cliente, cliente => cliente.loja)
+    clientes: Cliente[]
     
 }

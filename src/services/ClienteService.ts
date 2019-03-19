@@ -1,11 +1,12 @@
 import { Cliente, Loja } from '../entity/index'
 import Clientes from '../models/Clientes'
+import { Request, Response } from 'express'
 
 export class ClienteService {
 
     clientes = new Clientes()
 
-    async importarClientes(){
+    async importarClientes(req:Request,res:Response){
         let count = 0;
         //gerando clientes aleatórios
         for (let index = 0; index < 20; index++) {
@@ -18,7 +19,7 @@ export class ClienteService {
             count++
         }
 
-        console.log(count+' clientes inseridos!');
+        res.status(201).send(count+' clientes inseridos!');
         
     }
 }

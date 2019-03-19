@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import CidadeController from '../controllers/cidadeController'
+import CidadeController from '../controllers/CidadeController'
 
 export class CidadesRouter {
     

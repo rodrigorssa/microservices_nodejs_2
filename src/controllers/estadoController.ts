@@ -38,7 +38,7 @@ export default class EstadoController {
         let estados = new Estados()
             let query = await estados.getAll()
             if(!query) res.status(404).json(Errors.sendError404())
-            res.status(200).json(query)
+            return res.status(200).json(query)
     }
 
     isEmpty(result:any){

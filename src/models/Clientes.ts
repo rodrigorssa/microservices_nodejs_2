@@ -17,8 +17,8 @@ export default class Clientes {
         return this._connection.manager.find(Cliente).catch(err => console.log(err))
     }
 
-    getById(id:number){
-        return this._connection.manager.findOne(Cliente,{ where: { id }}).catch(err => console.log(err))
+    getByCPF(cpf:number){
+        return this._connection.manager.findOne(Cliente,{ where: { cpf }}).catch(err => console.log(err))
     }
 
     update(cliente:Cliente){

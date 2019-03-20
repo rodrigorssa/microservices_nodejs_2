@@ -19,10 +19,148 @@
   "tags": [
     {
       "name": "Lojas"
+    },
+    {
+      "name": "Cidades"
+    },
+    {
+      "name": "Estados"
     }
   ],
   "paths": {
     "/lojas": {
+      "get": {
+        "tags": [
+          "Lojas"
+        ],
+        "summary": "Busca lojas",
+        "description": "Busca todas as lojas",
+        "operationId": "BuscaTodasLojas",
+        "responses": {
+          "200": {
+            "description": "Busca efetuada com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Loja"
+            }
+          },
+          "404": {
+            "description": "Nada Encontrado"
+          }
+        }
+      }
+    },
+    "/lojas/estados/{param}": {
+      "get": {
+        "tags": [
+          "Lojas"
+        ],
+        "summary": "Busca Loja",
+        "description": "Busca loja por State",
+        "operationId": "BuscaLojaPorState",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "param",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Busca efetuada com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Loja"
+            }
+          },
+          "404": {
+            "description": "Nada encontrado"
+          }
+        }
+      }
+    },
+    "/lojas/id/{param}": {
+      "get": {
+        "tags": [
+          "Lojas"
+        ],
+        "summary": "Busca Loja",
+        "description": "Busca loja por Id",
+        "operationId": "BuscaLojaPorId",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "param",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Busca efetuada com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Loja"
+            }
+          },
+          "404": {
+            "description": "Nada encontrado"
+          }
+        }
+      }
+    },
+    "/lojas/importar": {
+      "get": {
+        "tags": [
+          "Lojas"
+        ],
+        "summary": "Importar Lojas",
+        "description": "Importar lojas pré definidas",
+        "operationId": "ImportarLojas",
+        "responses": {
+          "201": {
+            "description": "X lojas foram adicionadas"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/lojas/{estado}/{cidade}": {
+      "get": {
+        "tags": [
+          "Lojas"
+        ],
+        "summary": "Busca Lojas",
+        "description": "Busca loja por seu Estado e por sua Cidade",
+        "operationId": "BuscaLojaPorEstadoeCidade",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "estado",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "cidade",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Busca efetuada com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Loja"
+            }
+          },
+          "404": {
+            "description": "Nada encontrado"
+          }
+        }
+      }
+    },
+    "/lojas/inserir-loja": {
       "post": {
         "tags": [
           "Lojas"
@@ -50,17 +188,34 @@
             "description": "Requisição inválida"
           }
         }
-      },
-      "get": {
+      }
+    },
+    "/lojas/busca-por-cidades": {
+      "post": {
         "tags": [
           "Lojas"
         ],
-        "summary": "Busca lojas",
-        "description": "Busca todas as lojas",
-        "operationId": "BuscaTodasLojas",
+        "summary": "Busca por cidades",
+        "description": "Busca por cidades inseridas no corpo da requisição",
+        "operationId": "BuscaLojaPorCidades",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "cidades",
+            "schema": {
+              "type": "string",
+              "format": "array",
+              "example": [
+                "Pelotas",
+                "Rio grande",
+                "Passo fundo"
+              ]
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Busca efetuada com sucesso",
+            "description": "Retorna lojas com cidades vindas da request",
             "schema": {
               "$ref": "#/definitions/Loja"
             }
@@ -71,34 +226,7 @@
         }
       }
     },
-    "/lojas/{param}": {
-      "get": {
-        "tags": [
-          "Lojas"
-        ],
-        "summary": "Busca Loja",
-        "description": "Busca loja por ID ou por State",
-        "operationId": "BuscaLojaPorIdOuState",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "param",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Busca efetuada com sucesso",
-            "schema": {
-              "$ref": "#/definitions/Loja"
-            }
-          },
-          "404": {
-            "description": "Nada encontrado"
-          }
-        }
-      },
+    "/lojas/atualiza/{id}": {
       "put": {
         "tags": [
           "Lojas"
@@ -109,7 +237,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "param",
+            "name": "id",
             "required": true,
             "type": "integer",
             "format": "int32"
@@ -131,9 +259,14 @@
           },
           "404": {
             "description": "Requisição inválida"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
           }
         }
-      },
+      }
+    },
+    "/lojas/deleta/{id}": {
       "delete": {
         "tags": [
           "Lojas"
@@ -144,9 +277,9 @@
         "parameters": [
           {
             "in": "path",
-            "name": "param",
+            "name": "id",
             "required": true,
-            "type": "string"
+            "type": "integer"
           }
         ],
         "responses": {
@@ -155,6 +288,142 @@
           },
           "404": {
             "description": "Nada encontrado"
+          }
+        }
+      }
+    },
+    "/cidades": {
+      "get": {
+        "tags": [
+          "Cidades"
+        ],
+        "summary": "Busca Cidades",
+        "description": "Busca as 100 primeiras cidades",
+        "operationId": "RedirectCidades",
+        "responses": {
+          "301": {
+            "description": "Redireciona para '/cidades/pagina/1'"
+          }
+        }
+      }
+    },
+    "/cidades/pagina/{numero}": {
+      "get": {
+        "tags": [
+          "Cidades"
+        ],
+        "summary": "Busca cidades",
+        "description": "Busca cidades com paginação",
+        "operationId": "BuscaCidadesComPaginação",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "numero",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Busca efetuada com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Cidade"
+            }
+          },
+          "404": {
+            "description": "Nada encontrado"
+          }
+        }
+      }
+    },
+    "/cidades/{nome}": {
+      "get": {
+        "tags": [
+          "Cidades"
+        ],
+        "summary": "Busca cidades",
+        "description": "Busca cidades por nome",
+        "operationId": "BuscaCidadesPorNome",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "nome",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Busca efetuada com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Cidade"
+            }
+          },
+          "404": {
+            "description": "Nada encontrado"
+          }
+        }
+      }
+    },
+    "/cidades/importar": {
+      "get": {
+        "tags": [
+          "Cidades"
+        ],
+        "summary": "Importa cidades",
+        "description": "Importa cidades via API externa",
+        "operationId": "ImportaCidades",
+        "responses": {
+          "201": {
+            "description": "X cidades foram inseridas!",
+            "schema": {
+              "$ref": "#/definitions/Cidade"
+            }
+          },
+          "500": {
+            "description": "Erro interno"
+          }
+        }
+      }
+    },
+    "/estados/": {
+      "get": {
+        "tags": [
+          "Estados"
+        ],
+        "summary": "Busca estados",
+        "description": "Busca todos os estados",
+        "operationId": "BuscaEstados",
+        "responses": {
+          "200": {
+            "description": "Busca efetuada com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Estado"
+            }
+          },
+          "404": {
+            "description": "Nada encontrado"
+          }
+        }
+      }
+    },
+    "/estados/importar": {
+      "get": {
+        "tags": [
+          "Estados"
+        ],
+        "summary": "Importa estados",
+        "description": "Importa estados via API externa",
+        "operationId": "ImportaEstados",
+        "responses": {
+          "201": {
+            "description": "X estados foram inseridas!",
+            "schema": {
+              "$ref": "#/definitions/Estado"
+            }
+          },
+          "500": {
+            "description": "Erro interno"
           }
         }
       }
@@ -190,12 +459,46 @@
           "example": "Diariamente das 11hs às 23hs"
         },
         "city": {
-          "type": "string",
-          "example": "Cidade ABC"
+          "$ref": "#/definitions/Cidade"
         },
         "state": {
+          "$ref": "#/definitions/Estado"
+        }
+      }
+    },
+    "Estado": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 42
+        },
+        "sigla": {
           "type": "string",
-          "example": "A"
+          "example": "RS"
+        },
+        "nome": {
+          "type": "string",
+          "example": "Rio Grande do Sul"
+        }
+      }
+    },
+    "Cidade": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 4314407
+        },
+        "nome": {
+          "type": "string",
+          "example": "Pelotas"
+        },
+        "estadoId": {
+          "type": "integer",
+          "example": 42
         }
       }
     }

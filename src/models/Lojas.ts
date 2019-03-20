@@ -33,14 +33,13 @@ class Lojas {
         return this._connection.getRepository(Loja).createQueryBuilder("loja")
         .innerJoinAndSelect("loja.estado", "estado")
         .innerJoinAndSelect("loja.cidade", "cidade")
-        .leftJoinAndSelect("loja.clientes", "cliente")
         .where(query)
         .getMany().catch(err => console.log(err))
     }
 
     buscaPorId(id:number){
         return this._connection.manager.findOne(Loja,{
-            relations: ["cidade", "estado","clientes"],
+            relations: ["cidade", "estado"],
             where: { id }
         }).catch(err => console.log(err))
     }
@@ -49,7 +48,6 @@ class Lojas {
         return this._connection.getRepository(Loja).createQueryBuilder("loja")
         .innerJoinAndSelect("loja.estado", "estado")
         .innerJoinAndSelect("loja.cidade", "cidade")
-        .leftJoinAndSelect("loja.clientes", "cliente")
         .where("estado.sigla = :estado", { estado: sigla })
         .getMany().catch(err => console.log(err))
     }

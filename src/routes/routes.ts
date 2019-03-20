@@ -1,10 +1,9 @@
-import {LojasRouter, CidadesRouter, EstadosRouter, ClientesRouter } from './index'
+import {LojasRouter, CidadesRouter, EstadosRouter } from './index'
 export default (app) => {
        
         new LojasRouter(app)
         new CidadesRouter(app)
         new EstadosRouter(app)
-        new ClientesRouter(app)
 
         //caso não encontre nenhuma rota
         app.use((req, res) => {

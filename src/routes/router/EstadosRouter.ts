@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import EstadoController from '../controllers/EstadoController'
+import EstadoController from '../../controllers/EstadoController'
 
 export class EstadosRouter {
     

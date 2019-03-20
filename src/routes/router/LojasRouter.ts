@@ -1,6 +1,6 @@
 import { Request, Response }  from 'express'
-import LojaController from '../controllers/LojaController'
-import { LojaService } from '../services/index'
+import LojaController from '../../controllers/LojaController'
+import { LojaService } from '../../services/index'
 
 export class LojasRouter {
 
@@ -27,20 +27,19 @@ export class LojasRouter {
             lojaController.getAll(req,res)
     }
 
-    getParam(req:Request, res:Response) {
-        let param = req.params.param   
-        //verificando se o tipo de parametro é um numero, caso sim, consulta o ID da loja
-        if(!isNaN(param)){
-            let lojaController = new LojaController()
-            lojaController.getById(req,res,param)
-        }else{          
-            //caso seja texto, busca por estado
-            let lojaController = new LojaController()
-            lojaController.getByState(req,res,param)
-        }
+    getById(req:Request, res:Response) {
+        let param = req.params.param    
+        let lojaController = new LojaController()
+        lojaController.getById(req,res,param)     
     }
 
-    put(req:any,res:any){
+    getByState(req:Request, res:Response){
+        let param = req.params.param  
+        let lojaController = new LojaController()
+        lojaController.getByState(req,res,param)
+    }
+
+    put(req:Request, res:Response){
         let id = req.params.id     
         let lojaController = new LojaController()
             lojaController.put(req,res,id)
@@ -62,26 +61,26 @@ export class LojasRouter {
             res.redirect(301, '/lojas')
         })
 
-        this._app.route('/lojas')
-            .get(this.getAll)
-            .post(this.post)
+        this._app.get('/lojas',this.getAll)
+        
+        this._app.get('/lojas/estados/:param',this.getByState)
 
-        this._app.route('/lojas/importar')
-            .get(this.importaLojas)
+        this._app.get('/lojas/id/:param',this.getById)
+        
+        this._app.get('/lojas/:estado/:cidade',this.getStateCity)
+        
+        this._app.get('/lojas/importar',this.importaLojas)
+        
+        this._app.post('/lojas/inserir-loja',this.post)
+        
+        this._app.post('/lojas/busca-por-cidades',this.getAll)
             
+        this._app.put('/lojas/atualiza/:id',this.put)
 
-        this._app.route('/lojas/cidades')
-            .post(this.getAll)
-            
-        this._app.route('/lojas/:id')
-            .put(this.put)
-            .delete(this.deletar)
+        this._app.delete('/lojas/deleta/:id',this.deletar)
 
-        this._app.route('/lojas/:param')
-            .get(this.getParam)
 
-        this._app.route('/lojas/:estado/:cidade')
-            .get(this.getStateCity)
+
     }
     
 } 

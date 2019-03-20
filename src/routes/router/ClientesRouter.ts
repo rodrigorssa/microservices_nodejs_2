@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import ClienteController from '../controllers/ClienteController'
-import { ClienteService } from '../services/index'
+import ClienteController from '../../controllers/ClienteController'
+import { ClienteService } from '../../services/index'
 
 export class ClientesRouter {
     

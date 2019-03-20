@@ -16,7 +16,7 @@ export default class LojaController {
             req.assert(keys[index],`Campo ${keys[index]} é obrigatório.`).notEmpty()             
         }
 
-        let err:any = req.validationErrors()
+        let err = req.validationErrors()
 
         //se tiver algum erro o post não envia e mostra mensagem de erro
         if(err) {

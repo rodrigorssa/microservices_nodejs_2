@@ -1,5 +1,5 @@
 import {getConnection, Connection} from "typeorm";
-import { Loja} from '../entity/index'
+import { Loja } from '../entity/index'
 
 class Lojas {
 

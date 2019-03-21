@@ -63,6 +63,7 @@ export default class LojaController {
 
         const lojas = new Lojas()
         let query = await lojas.buscaLojas(obj)
+        console.log(query);
         if(this.isEmpty(query)) return res.status(404).json(Errors.sendError404())
         return res.status(200).json(query)
     }

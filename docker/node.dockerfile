@@ -1,6 +1,6 @@
 FROM node:latest
 
-VOLUME [". /var/www"]
+COPY . /var/www
 WORKDIR /var/www
 RUN npm config set strict-ssl false
 RUN npm install

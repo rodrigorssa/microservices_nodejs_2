@@ -3,6 +3,7 @@ import Cidades from '../models/Cidades'
 import { Loja, Cidade } from '../entity/index'
 import { Request, Response } from 'express'
 import * as Errors from '../helpers/errors'
+import ClienteService from '../services/ClienteService'
 
 export default class LojaController {
 
@@ -68,9 +69,13 @@ export default class LojaController {
 
     async getById(req:Request,res:Response,id:number){
         const lojas = new Lojas()
-            let query = await lojas.buscaPorId(id)
-            if(!query) return res.status(404).json(Errors.sendError404())
-            return res.status(200).json(query)
+            let loja = await lojas.buscaPorId(id)
+            if(!loja) return res.status(404).json(Errors.sendError404())
+            let clientes = await new ClienteService().getClientsByLojaId(loja.id)
+
+            let mergeDados = {loja, clientes: clientes}
+
+            return res.status(200).json(mergeDados)
     }
 
     async getByState(req:Request,res:Response,state:string){

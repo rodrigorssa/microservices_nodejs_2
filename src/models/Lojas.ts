@@ -30,9 +30,9 @@ class Lojas {
             query =`cidade.cidade IN(${cidades})`
         }
         
-        return this._connection.getRepository(Loja).createQueryBuilder("loja")
-        .innerJoinAndSelect("loja.estado", "estado")
-        .innerJoinAndSelect("loja.cidade", "cidade")
+        return this._connection.createQueryBuilder(Loja,"loja")
+        .leftJoinAndSelect("loja.estado", "estado")
+        .leftJoinAndSelect("loja.cidade", "cidade")
         .where(query)
         .getMany().catch(err => console.log(err))
     }
@@ -45,9 +45,9 @@ class Lojas {
     }
 
     buscaPorEstado(sigla:string){
-        return this._connection.getRepository(Loja).createQueryBuilder("loja")
-        .innerJoinAndSelect("loja.estado", "estado")
-        .innerJoinAndSelect("loja.cidade", "cidade")
+        return this._connection.createQueryBuilder(Loja,"loja")
+        .leftJoinAndSelect("loja.estado", "estado")
+        .leftJoinAndSelect("loja.cidade", "cidade")
         .where("estado.sigla = :estado", { estado: sigla })
         .getMany().catch(err => console.log(err))
     }

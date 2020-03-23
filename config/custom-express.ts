@@ -5,6 +5,7 @@ import * as expressValidator from 'express-validator'
 import { createConnection } from 'typeorm'
 import * as morgan from 'morgan'
 import SwaggerApplication from '../docs'
+import Logger from '../src/services/logger'
 
 export default class App {
   private app:express;
@@ -12,10 +13,10 @@ export default class App {
 
   initDb ():void{
     createConnection().then(() => {
-      console.log('DB connection ok!')
+      Logger.info('DB connection ok!')
     })
       .catch(err => {
-        console.log(err)
+        Logger.info(err)
       })
   }
 
@@ -33,7 +34,7 @@ export default class App {
     ApplicationRoutes(this.app)
     this.initDb()
     this.app.listen(appPort, () => {
-      console.log(`Application running at port: ${appPort}`)
+      Logger.info(`Application running at port: ${appPort}`)
     })
   }
 }

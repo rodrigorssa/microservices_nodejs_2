@@ -1,29 +1,39 @@
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
-import routes from '../src/routes/routes'
+import ApplicationRoutes from '../src/routes/routes'
 import * as expressValidator from 'express-validator'
-import * as swaggerUi from 'swagger-ui-express'
 import { createConnection } from 'typeorm'
 import * as morgan from 'morgan'
+import SwaggerApplication from '../docs'
 
-const swaggerDocument = require('../documentation/swagger.json')
+export default class App {
+  private app:express;
+  private static swaggerDocs = new SwaggerApplication();
 
-const app = express()
+  initDb ():void{
+    createConnection().then(() => {
+      console.log('DB connection ok!')
+    })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
-app.use(expressValidator())
-app.use(morgan('combined'))
+  setAppConfigs (app:express):void {
+    app.use(bodyParser.urlencoded({ extended: true }))
+    app.use(bodyParser.json())
+    app.use(expressValidator())
+    app.use(morgan('combined'))
+  }
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
-
-createConnection().then(async () => {
-  console.log('DB connection ok!')
-})
-  .catch(err => {
-    console.log(err)
-  })
-
-routes(app)
-
-export default app
+  initApp (appPort:Number = 3000):void {
+    this.app = express()
+    this.setAppConfigs(this.app)
+    App.swaggerDocs.init(this.app)
+    ApplicationRoutes(this.app)
+    this.initDb()
+    this.app.listen(appPort, () => {
+      console.log(`Application running at port: ${appPort}`)
+    })
+  }
+}

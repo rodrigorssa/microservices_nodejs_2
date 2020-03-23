@@ -1,4 +1,4 @@
 import app from '../config/custom-express'
+import { APP_PORT } from '../config/env_vars'
 
-
-app.listen('3000', () => console.log('app funcionando na porta 3000!'))
+app.listen(APP_PORT, () => console.log(`app funcionando na porta ${APP_PORT}!`))

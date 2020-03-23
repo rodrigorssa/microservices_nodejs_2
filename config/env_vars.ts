@@ -1,5 +1,7 @@
-export const estadosLink = 'https://servicodados.ibge.gov.br/api/v1/localidades/estados'
+const IBGE_BASE_URL = 'https://servicodados.ibge.gov.br/api/v1/localidades'
 
-export const cidadesLink = 'https://servicodados.ibge.gov.br/api/v1/localidades/municipios'
+export const STATES_URL = `${IBGE_BASE_URL}/estados`
 
-export const clientesLink = 'http://localhost:3001/clientes'
+export const CITIES_URL = `${IBGE_BASE_URL}/municipios`
+
+export const APP_PORT = 3000

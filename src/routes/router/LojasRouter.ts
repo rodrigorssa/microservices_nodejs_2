@@ -1,86 +1,28 @@
-import { Request, Response }  from 'express'
 import LojaController from '../../controllers/LojaController'
 import { LojaService } from '../../services/index'
 
 export class LojasRouter {
+  static router (app) {
+    app.get('/', (req:any, res:any) => {
+      res.redirect(301, '/lojas')
+    })
 
-    _app;
+    app.get('/lojas', new LojaController().getAll)
 
-    constructor(app){
-        this._app = app
-        this.router()
-    }
+    app.get('/lojas/estados/:param', new LojaController().getByState)
 
-    getAll(req:Request, res:Response)  {    
-        let lojaController = new LojaController()
-            lojaController.getAll(req,res)
-    }
+    app.get('/lojas/id/:param', new LojaController().getById)
 
-    post(req:Request, res:Response) {
-        //instanciando objeto Controller e passando os dados de request e response
-        let lojaController = new LojaController()
-            lojaController.post(req,res)
-    }
+    app.get('/lojas/:estado/:cidade', new LojaController().getByState)
 
-    getStateCity(req:Request, res:Response){        
-        let lojaController = new LojaController()
-            lojaController.getAll(req,res)
-    }
+    app.get('/lojas/importar', new LojaService().postJSON)
 
-    getById(req:Request, res:Response) {
-        let param = req.params.param    
-        let lojaController = new LojaController()
-        lojaController.getById(req,res,param)     
-    }
+    app.post('/lojas/inserir-loja', new LojaController().post)
 
-    getByState(req:Request, res:Response){
-        let param = req.params.param  
-        let lojaController = new LojaController()
-        lojaController.getByState(req,res,param)
-    }
+    app.post('/lojas/busca-por-cidades', new LojaController().getAll)
 
-    put(req:Request, res:Response){
-        let id = req.params.id     
-        let lojaController = new LojaController()
-            lojaController.put(req,res,id)
-    }
-    
-    deletar(req:Request, res:Response) {     
-        let lojaController = new LojaController()
-            lojaController.delete(req,res)
-    }
+    app.put('/lojas/atualiza/:id', new LojaController().put)
 
-    importaLojas(req:Request, res:Response){
-        let lojaServico = new LojaService()
-            lojaServico.postJSON(req,res)
-    }
-
-    router(){
-
-        this._app.get('/',(req:any,res:any) => {
-            res.redirect(301, '/lojas')
-        })
-
-        this._app.get('/lojas',this.getAll)
-        
-        this._app.get('/lojas/estados/:param',this.getByState)
-
-        this._app.get('/lojas/id/:param',this.getById)
-        
-        this._app.get('/lojas/:estado/:cidade',this.getStateCity)
-        
-        this._app.get('/lojas/importar',this.importaLojas)
-        
-        this._app.post('/lojas/inserir-loja',this.post)
-        
-        this._app.post('/lojas/busca-por-cidades',this.getAll)
-            
-        this._app.put('/lojas/atualiza/:id',this.put)
-
-        this._app.delete('/lojas/deleta/:id',this.deletar)
-
-
-
-    }
-    
-} 
+    app.delete('/lojas/deleta/:id', new LojaController().delete)
+  }
+}

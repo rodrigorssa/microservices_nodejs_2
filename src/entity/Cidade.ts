@@ -1,9 +1,8 @@
-import "reflect-metadata"
-import {Entity, PrimaryColumn, Column, JoinColumn, ManyToOne} from "typeorm";
+import 'reflect-metadata'
+import { Entity, PrimaryColumn, Column, JoinColumn, ManyToOne } from 'typeorm'
 import { Estado } from './Estado'
 @Entity()
 export class Cidade {
-
     @PrimaryColumn()
     id:number
 
@@ -13,5 +12,4 @@ export class Cidade {
     @ManyToOne(type => Estado)
     @JoinColumn()
     estado: Estado
-
-} 
+}

@@ -1,8 +1,7 @@
-import { Entity,Column, PrimaryColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn } from 'typeorm'
 
 @Entity()
-export class Estado{
-
+export class Estado {
     @PrimaryColumn()
     id:number
 
@@ -11,5 +10,4 @@ export class Estado{
 
     @Column('text')
     nome: string
-
 }

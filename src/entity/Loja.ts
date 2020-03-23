@@ -1,10 +1,9 @@
-import "reflect-metadata"
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany} from "typeorm";
+import 'reflect-metadata'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm'
 import { Cidade, Estado } from '../entity/index'
 
 @Entity()
-export class Loja  {
-
+export class Loja {
     @PrimaryGeneratedColumn()
     id:number
 
@@ -22,12 +21,12 @@ export class Loja  {
 
     @Column('text')
     workingHour:string
-    
+
     @ManyToOne(type => Cidade, entity => entity.id)
-    @JoinColumn({ name: "cidadeId" })
+    @JoinColumn({ name: 'cidadeId' })
     cidade: Cidade
 
     @ManyToOne(type => Estado, entity => entity.id)
-    @JoinColumn({ name: "estadoId" })
-    estado: Estado    
+    @JoinColumn({ name: 'estadoId' })
+    estado: Estado
 }

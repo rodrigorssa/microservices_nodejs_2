@@ -11,7 +11,7 @@ export default class App {
   private app:express;
   private static swaggerDocs = new SwaggerApplication();
 
-  initDb ():void{
+  private initDb ():void{
     createConnection().then(() => {
       Logger.info('DB connection ok!')
     })
@@ -20,7 +20,7 @@ export default class App {
       })
   }
 
-  setAppConfigs (app:express):void {
+  private setAppConfigs (app:express):void {
     app.use(bodyParser.urlencoded({ extended: true }))
     app.use(bodyParser.json())
     app.use(expressValidator())

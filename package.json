@@ -45,7 +45,7 @@
       "dev": "nodemon -e ts --exec \" npm run lint && npm start \" ",
       "start": "ts-node ./src/index.ts",
       "test": "jest",
-      "seed": "ts-node ./src/services/index.ts"
+      "seed": "ts-node ./src/seeds/index.ts"
    },
    "jest": {
       "transform": {

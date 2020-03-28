@@ -14,6 +14,9 @@ export default class StringUtils {
       case (arg === null):
         result = 'null'
         break
+      case (arg === undefined):
+        result = 'undefined'
+        break
       case (typeof arg === 'object'):
         result = JSON.stringify(arg)
         break

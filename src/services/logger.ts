@@ -5,7 +5,9 @@ class Logger {
   private logger = createLogger({
     format: format.json(),
     defaultMeta: {
-      app: 'nossas_lojas'
+      app: 'nossas_lojas',
+      pid: process.pid,
+      date: new Date().toLocaleString()
     },
     transports: new transports.Console({
       format: format.combine(
@@ -15,12 +17,16 @@ class Logger {
     })
   })
 
-  info (message:string):void{
+  info (message:any):void{
     this.logger.info(StringUtils.toString(message))
   }
 
-  error (message:string):void{
-    this.logger.error(StringUtils.toString(message))
+  warn (message:any):void{
+    this.logger.warn(StringUtils.toString(message))
+  }
+
+  error (message:any):void{
+    this.logger.log({ level: 'error', message: message, trace: new Error(message).stack })
   }
 }
 
